@@ -33,7 +33,7 @@ public class Pessoa {
     @Size(min = 10, max = 15)
     private String dataNasc;
 
-    @Column(name = "CPF", length = 14 , nullable = false)
+    @Column(name = "CPF", length = 14 , nullable = false, unique = true)
     @NotBlank
     @Size(min = 14, max = 14)
     private String cpf;
