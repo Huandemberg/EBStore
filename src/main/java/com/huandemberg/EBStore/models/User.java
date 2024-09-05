@@ -6,15 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Table(name = Vendedor.TABLE_NAME)
+@Table(name = User.TABLE_NAME)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Vendedor extends Pessoa {
-    public static final String TABLE_NAME = "vendedor";
+@Getter
+@Setter
+public class User extends Pessoa {
+    public static final String TABLE_NAME = "user";
 
     @Column(name = "username", length = 100, nullable = false, unique = true)
     @NotBlank

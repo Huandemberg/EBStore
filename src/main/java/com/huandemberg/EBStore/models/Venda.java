@@ -38,7 +38,7 @@ public class Venda {
 
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = false, updatable = false)
-    private Vendedor vendedor;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false, updatable = false)
