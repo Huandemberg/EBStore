@@ -21,6 +21,10 @@ public class Venda {
     @Column(name = "id", unique = true)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "produto_id", nullable = false, updatable = false)
+    private Produto produto;
+
     @Column(name = "valorCliente", nullable = false)
     @NotBlank
     @Size(min = 1, max = 255)
