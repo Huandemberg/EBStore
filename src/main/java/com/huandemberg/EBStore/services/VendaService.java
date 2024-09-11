@@ -37,7 +37,7 @@ public class VendaService {
         return task;
     }
 
-    public List<VendaProjection> findAllByUser() {
+    public List<VendaProjection> findAllByVendas() {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if (Objects.isNull(userSpringSecurity))
             throw new AuthorizationException("Acesso negado!");
