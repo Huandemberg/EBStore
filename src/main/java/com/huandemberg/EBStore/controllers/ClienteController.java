@@ -1,6 +1,7 @@
 package com.huandemberg.EBStore.controllers;
 
 import com.huandemberg.EBStore.models.Cliente;
+import com.huandemberg.EBStore.models.projection.ClienteProjection;
 import com.huandemberg.EBStore.services.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cliente")
@@ -23,6 +25,12 @@ public class ClienteController {
     public ResponseEntity<Cliente> findById(@PathVariable Long id){
         Cliente obj = this.clienteService.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping("/cliente")
+    public ResponseEntity<List<ClienteProjection>> findAllByUser() {
+        List<ClienteProjection> objs = this.clienteService.findAllByUser();
+        return ResponseEntity.ok().body(objs);
     }
 
     @PostMapping

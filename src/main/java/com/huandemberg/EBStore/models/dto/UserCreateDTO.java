@@ -19,4 +19,20 @@ public class UserCreateDTO {
     @Size(min = 8, max = 60)
     private String password;
 
+    @NotBlank
+    @Size(min = 4, max = 255)
+    private String nome;
+
+    @NotBlank
+    @Size(min = 1, max = 255)
+    private String email;
+
+    @NotBlank
+    @Size(min = 10, max = 15)
+    private String dataNasc;
+
+    @NotBlank
+    @Size(min = 14, max = 14)
+    private String cpf;
+
 }

@@ -45,6 +45,10 @@ public class UserService {
     public User create(User obj) {
         obj.setId(null);
         obj.setPassword(this.bCryptPasswordEncoder.encode(obj.getPassword()));
+        obj.setEmail(obj.getEmail());
+        obj.setNome(obj.getNome());
+        obj.setCpf(obj.getCpf());
+        obj.setDataNasc(obj.getDataNasc());
         obj.setProfiles(Stream.of(ProfileEnum.USER.getCode()).collect(Collectors.toSet()));
         obj = this.userRepository.save(obj);
         return obj;

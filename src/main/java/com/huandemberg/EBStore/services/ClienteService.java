@@ -41,7 +41,7 @@ public class ClienteService {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if(Objects.isNull(userSpringSecurity))
             throw new AuthorizationException("Acesso negado!");
-        List<ClienteProjection> clients = this.clienteRepository.findByAllClientes();
+        List<ClienteProjection> clients = this.clienteRepository.findAllClienteProjections();
         return clients;
     }
 
