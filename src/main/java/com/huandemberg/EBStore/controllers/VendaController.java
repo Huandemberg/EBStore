@@ -1,15 +1,9 @@
 package com.huandemberg.EBStore.controllers;
 
 import com.huandemberg.EBStore.models.Venda;
-import com.huandemberg.EBStore.models.enums.ProfileEnum;
 import com.huandemberg.EBStore.models.projection.VendaProjection;
-import com.huandemberg.EBStore.repositories.VendaRepository;
-import com.huandemberg.EBStore.security.UserSpringSecurity;
-import com.huandemberg.EBStore.services.UserService;
 import com.huandemberg.EBStore.services.VendaService;
-import com.huandemberg.EBStore.services.exceptions.AuthorizationException;
 import jakarta.validation.Valid;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/venda")

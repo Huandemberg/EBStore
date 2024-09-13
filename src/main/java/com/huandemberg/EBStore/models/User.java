@@ -31,7 +31,7 @@ public class User extends Pessoa {
     @Size(min = 8, max = 60)
     private String password;
 
-    @Column(name = "situacao", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    @Column(name = "situacao", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private boolean situacao;
 
     @ElementCollection(fetch = FetchType.EAGER)

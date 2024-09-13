@@ -8,6 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -18,10 +20,11 @@ public class UserSpringSecurity implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserSpringSecurity(Long id, String username, String password){
+    public UserSpringSecurity(Long id, String username, String password, Set<ProfileEnum> profileEnums){
         this.id = id;
         this.username = username;
         this.password = password;
+        this.authorities = profileEnums.stream().map(x-> new SimpleGrantedAuthority(x.getDescription())).collect(Collectors.toList());
 
 
     }

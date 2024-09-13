@@ -83,6 +83,10 @@ public class UserService {
         User user = new User();
         user.setUsername(obj.getUsername());
         user.setPassword(obj.getPassword());
+        user.setNome(obj.getNome());
+        user.setCpf(obj.getCpf());
+        user.setDataNasc(obj.getDataNasc());
+        user.setEmail(obj.getEmail());
         return user;
     }
 
@@ -90,6 +94,10 @@ public class UserService {
         User user = new User();
         user.setId(obj.getId());
         user.setPassword(obj.getPassword());
+        user.setNome(obj.getNome());
+        user.setCpf(obj.getCpf());
+        user.setDataNasc(obj.getDataNasc());
+        user.setEmail(obj.getEmail());
         return user;
     }
 
