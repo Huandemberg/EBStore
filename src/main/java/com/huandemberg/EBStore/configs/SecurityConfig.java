@@ -56,22 +56,22 @@ public class SecurityConfig {
                 http.cors(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable);
 
                 AuthenticationManagerBuilder authenticationManagerBuilder = http
-                                .getSharedObject(AuthenticationManagerBuilder.class);
+                        .getSharedObject(AuthenticationManagerBuilder.class);
                 authenticationManagerBuilder.userDetailsService(this.userDetailsService)
-                                .passwordEncoder(bCryptPasswordEncoder());
+                        .passwordEncoder(bCryptPasswordEncoder());
                 this.authenticationManager = authenticationManagerBuilder.build();
 
                 http.authorizeHttpRequests((authorize) -> authorize
-                                .requestMatchers(HttpMethod.POST, PUBLIIC_MATCHERS_POST).permitAll()
-                                .requestMatchers(PUBLIIC_MATCHERS).permitAll()
-                                .anyRequest().authenticated()).authenticationManager(authenticationManager);
+                        .requestMatchers(HttpMethod.POST, PUBLIIC_MATCHERS_POST).permitAll()
+                        .requestMatchers(PUBLIIC_MATCHERS).permitAll()
+                        .anyRequest().authenticated()).authenticationManager(authenticationManager);
 
                 http.addFilter(new JWTAuthenticationFilter(this.authenticationManager, this.jwtUtil));
                 http.addFilter(new JWTAuthorizationFilter(this.authenticationManager, this.jwtUtil,
                                 this.userDetailsService));
 
                 http.sessionManagement((sessions) -> sessions
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
                 return http.build();
 
