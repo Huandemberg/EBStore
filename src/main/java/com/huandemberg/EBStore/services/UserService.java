@@ -60,6 +60,7 @@ public class UserService {
         User newObj = findById(obj.getId());
         newObj.setEmail(obj.getEmail());
         newObj.setNome(obj.getNome());
+        newObj.setDataNasc(obj.getDataNasc());
         newObj.setPassword(obj.getPassword());
         newObj.setPassword(this.bCryptPasswordEncoder.encode(obj.getPassword()));
         return this.userRepository.save(newObj);
