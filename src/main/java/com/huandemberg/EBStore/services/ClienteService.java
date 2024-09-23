@@ -54,6 +54,10 @@ public class ClienteService {
         User user = this.userService.findById(userSpringSecurity.getId());
         obj.setId(null);
         obj.setUser(user);
+        obj.setCpf(obj.getCpf());
+        obj.setDataNasc(obj.getDataNasc());
+        obj.setEmail(obj.getEmail());
+        obj.setNome(obj.getNome());
         obj = this.clienteRepository.save(obj);
         return obj;
     }
