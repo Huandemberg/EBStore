@@ -27,7 +27,7 @@ public class ClienteController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @GetMapping("/cliente")
+    @GetMapping("/clientes")
     public ResponseEntity<List<ClienteProjection>> findAllByUser() {
         List<ClienteProjection> objs = this.clienteService.findAllByUser();
         return ResponseEntity.ok().body(objs);
@@ -36,9 +36,9 @@ public class ClienteController {
     @PostMapping
     @Validated
     public ResponseEntity<Void> create(@Valid @RequestBody Cliente obj){
-        this.clienteService.create(obj);
+        Cliente cliente = this.clienteService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(obj.getId()).toUri();
+                .path("/{id}").buildAndExpand(cliente.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 

@@ -24,4 +24,4 @@ hs_err_pid*
 replay_pid*
 /target
 target/classes/application-dev.properties
-target
+target/

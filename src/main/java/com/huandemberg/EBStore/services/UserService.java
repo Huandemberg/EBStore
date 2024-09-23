@@ -49,6 +49,7 @@ public class UserService {
         obj.setNome(obj.getNome());
         obj.setCpf(obj.getCpf());
         obj.setDataNasc(obj.getDataNasc());
+        obj.setSituacao(true);
         obj.setProfiles(Stream.of(ProfileEnum.USER.getCode()).collect(Collectors.toSet()));
         obj = this.userRepository.save(obj);
         return obj;
@@ -57,6 +58,8 @@ public class UserService {
     @Transactional
     public User update(User obj) {
         User newObj = findById(obj.getId());
+        newObj.setEmail(obj.getEmail());
+        newObj.setNome(obj.getNome());
         newObj.setPassword(obj.getPassword());
         newObj.setPassword(this.bCryptPasswordEncoder.encode(obj.getPassword()));
         return this.userRepository.save(newObj);
