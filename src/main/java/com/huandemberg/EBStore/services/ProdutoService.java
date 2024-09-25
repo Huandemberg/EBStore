@@ -50,7 +50,6 @@ public class ProdutoService {
         if (Objects.isNull(userSpringSecurity))
             throw new AuthorizationException("Acesso negado!");
 
-
         obj = this.produtoRepository.save(obj);
         return obj;
     }
@@ -61,6 +60,7 @@ public class ProdutoService {
         newObj.setModelo(obj.getModelo());
         newObj.setCor(obj.getCor());
         newObj.setPreco(obj.getPreco());
+        newObj.setTamanho(obj.getTamanho());
         return this.produtoRepository.save(newObj);
     }
 

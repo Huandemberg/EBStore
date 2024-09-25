@@ -26,8 +26,6 @@ public class Venda {
     private Produto produto;
 
     @Column(name = "valorCliente", nullable = false)
-    @NotBlank
-    @Size(min = 1, max = 255)
     private Float valorCliente;
 
     @Column(name = "formPag", nullable = false)

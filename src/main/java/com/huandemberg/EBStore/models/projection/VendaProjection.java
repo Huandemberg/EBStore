@@ -18,6 +18,6 @@ public interface VendaProjection {
 
     public User getUser();
 
-    public Cliente gerCliente();
+    public Cliente getCliente();
 
 }

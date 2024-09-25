@@ -4,6 +4,7 @@ com\huandemberg\EBStore\controllers\ProdutoController.class
 com\huandemberg\EBStore\repositories\ProdutoRepository.class
 com\huandemberg\EBStore\exceptions\ErrorResponse.class
 com\huandemberg\EBStore\models\dto\UserUpdateDTO.class
+com\huandemberg\EBStore\models\dto\VendaUpdateDTO.class
 com\huandemberg\EBStore\models\Venda.class
 com\huandemberg\EBStore\security\JWTAuthenticationFilter.class
 com\huandemberg\EBStore\models\Produto.class
@@ -24,6 +25,7 @@ com\huandemberg\EBStore\services\ClienteService.class
 com\huandemberg\EBStore\controllers\ClienteController.class
 com\huandemberg\EBStore\services\ProdutoService.class
 com\huandemberg\EBStore\models\projection\ClienteProjection.class
+com\huandemberg\EBStore\models\dto\VendaCreateDTO.class
 com\huandemberg\EBStore\models\User.class
 com\huandemberg\EBStore\controllers\UserController.class
 com\huandemberg\EBStore\models\dto\UserCreateDTO.class
