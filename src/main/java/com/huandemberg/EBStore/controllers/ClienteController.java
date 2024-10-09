@@ -33,6 +33,12 @@ public class ClienteController {
         return ResponseEntity.ok().body(objs);
     }
 
+    @GetMapping("/findByNome/{nome}")
+    public ResponseEntity<List<Cliente>> findByNome(@PathVariable String nome){
+        List<Cliente> obj = this.clienteService.findAllByNameLike(nome);
+        return ResponseEntity.ok().body(obj);
+    }
+
     @PostMapping
     @Validated
     public ResponseEntity<Void> create(@Valid @RequestBody Cliente obj){

@@ -37,6 +37,23 @@ public class ClienteService {
         return cliente;
     }
 
+    public List<Cliente> findAllByName(String name){
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if(Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+        List<Cliente> clients = this.clienteRepository.findAllByNome(name);
+        return clients;
+    }
+
+    public List<Cliente> findAllByNameLike(String name){
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if(Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+        String pattern = "%" + name + "%";
+        List<Cliente> clients = this.clienteRepository.findAllByNomeLike(pattern);
+        return clients;
+    }
+
     public List<ClienteProjection> findAllByUser(){
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if(Objects.isNull(userSpringSecurity))

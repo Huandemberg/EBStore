@@ -14,4 +14,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("SELECT c.id AS id, c.nome AS nome, c.cpf AS cpf, c.dataNasc AS dataNasc, c.email AS email FROM Cliente c")
     List<ClienteProjection> findAllClienteProjections();
 
+    List<Cliente> findAllByNome(String nome);
+
+    List<Cliente> findAllByNomeLike(String nome);
+
 }

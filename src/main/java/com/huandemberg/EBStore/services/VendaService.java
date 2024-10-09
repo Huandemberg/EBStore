@@ -39,15 +39,15 @@ public class VendaService {
     private ClienteService clienteService;
 
     public Venda findById(Long id) {
-        Venda task = this.vendaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
+        Venda venda = this.vendaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Tarefa não encontrada! Id: " + id + ", Tipo: " + Venda.class.getName()));
 
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if (Objects.isNull(userSpringSecurity)
-                || !userSpringSecurity.hasRole(ProfileEnum.ADMIN) && !userHasTask(userSpringSecurity, task))
+                || !userSpringSecurity.hasRole(ProfileEnum.ADMIN) && !userHasVenda(userSpringSecurity, venda))
             throw new AuthorizationException("Acesso negado!");
 
-        return task;
+        return venda;
     }
 
     public List<VendaProjection> findAllByVendas() {
@@ -91,7 +91,7 @@ public class VendaService {
         }
     }
 
-    private Boolean userHasTask(UserSpringSecurity userSpringSecurity, Venda venda) {
+    private Boolean userHasVenda(UserSpringSecurity userSpringSecurity, Venda venda) {
         return venda.getUser().getId().equals(userSpringSecurity.getId());
     }
 
