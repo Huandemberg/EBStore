@@ -28,8 +28,14 @@ public class ProdutoController {
     }
 
     @GetMapping("/produtos")
-    public ResponseEntity<List<ProdutoProjection>> findAllByVendas(){
+    public ResponseEntity<List<ProdutoProjection>> findAllByProdutos(){
         List<ProdutoProjection> objs = this.produtoService.findAllByProdutos();
+        return ResponseEntity.ok().body(objs);
+    }
+
+    @GetMapping("/findByModel/{nome}")
+    public ResponseEntity<List<Produto>> findAllByModelo(@PathVariable String nome){
+        List<Produto> objs = this.produtoService.findAllByModeloLike(nome);
         return ResponseEntity.ok().body(objs);
     }
 

@@ -38,7 +38,7 @@ public class ClienteController {
         List<Cliente> obj = this.clienteService.findAllByNameLike(nome);
         return ResponseEntity.ok().body(obj);
     }
-
+    
     @PostMapping
     @Validated
     public ResponseEntity<Void> create(@Valid @RequestBody Cliente obj){

@@ -44,6 +44,15 @@ public class ProdutoService {
         return produtos;
     }
 
+    public List<Produto> findAllByModeloLike(String name){
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if(Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+        String pattern = "%" + name + "%";
+        List<Produto> produtos = this.produtoRepository.findAllByModeloLike(pattern);
+        return produtos;
+    }
+
     @Transactional
     public Produto create(Produto obj) {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
