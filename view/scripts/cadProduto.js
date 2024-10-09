@@ -1,12 +1,11 @@
-async function newVenda(){
-    let cliente_Id = document.getElementById("clienteImput").value;
-    let produto_Id = document.getElementById("produtoImput").value;
-    let formPag = document.getElementById("formPImput").value;
-    let valorC = document.getElementById("valorImput").value;
-    let data = document.getElementById("dataImput").value;
+async function newProduto(){
+    let modelo = document.getElementById("modeloImput").value;
+    let tamanho = document.getElementById("tamanhoImput").value;
+    let cor = document.getElementById("corPImput").value;
+    let valorP = document.getElementById("valorImput").value;
     let key = "Authorization";
 
-    const response = await fetch("http://localhost:8080/venda", {
+    const response = await fetch("http://localhost:8080/produto", {
         method: "POST",
         headers: new Headers({
             "Content-Type": "application/json; charset=utf8",
@@ -14,11 +13,10 @@ async function newVenda(){
             Authorization: localStorage.getItem(key),
         }),
         body: JSON.stringify({
-            cliente_Id: cliente_Id,
-            produto_Id: produto_Id,
-            valorCliente: valorC,
-            formPag: formPag,
-            data: data
+            modelo: modelo,
+            tamanho: tamanho,
+            cor: cor,
+            preco: valorP,
         }),
     });
 
@@ -29,7 +27,7 @@ async function newVenda(){
       }
     
       window.setTimeout(function () {
-        window.location = "/view/vendas.html";
+        window.location = "/view/produto.html";
       }, 2000);
 }
 
