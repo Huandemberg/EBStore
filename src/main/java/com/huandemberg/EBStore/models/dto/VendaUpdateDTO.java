@@ -19,10 +19,6 @@ public class VendaUpdateDTO {
     @Size(min = 1, max = 50)
     private String formPag;
 
-    @NotBlank
-    @Size(min = 10, max = 15)
-    private String data;
-
     private Long cliente_Id;
 
     private Long produto_Id;

@@ -118,7 +118,6 @@ public class VendaService {
         venda.setCliente(cliente);
         venda.setProduto(produto);
         venda.setValorCliente(obj.getValorCliente());
-        venda.setData(obj.getData());
         venda.setFormPag(obj.getFormPag());
         return venda;
     }
