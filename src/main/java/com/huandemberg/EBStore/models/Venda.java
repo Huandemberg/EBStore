@@ -22,7 +22,7 @@ public class Venda {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "produto_id", nullable = false, updatable = false)
+    @JoinColumn(name = "produto_id", nullable = false, updatable = true)
     private Produto produto;
 
     @Column(name = "valorCliente", nullable = false)
@@ -43,7 +43,7 @@ public class Venda {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false, updatable = false)
+    @JoinColumn(name = "cliente_id", nullable = false, updatable = true)
     private Cliente cliente;
 
 }
