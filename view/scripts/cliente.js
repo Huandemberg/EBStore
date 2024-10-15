@@ -22,6 +22,7 @@ function show(clientes) {
                     <td>${cliente.dataNasc}</td>
                     <td>${cliente.cpf}</td>
                     <td><button type="button" onclick="getCliente(${cliente.id})" class="btn btn-primary">Alterar</button></td>
+                    <td><button type="button" onclick="deleteCliente(${cliente.id})" class="btn btn-danger">Delete</button></td>
                 </tr> `;
     }
 
@@ -83,6 +84,17 @@ async function getCliente(id) {
     console.log(data);
     if (response) hideLoader();
     alterar(data);
+}
+
+async function deleteCliente(clienteId){
+    let key = "Authorization";
+    const response = await fetch("http://localhost:8080/cliente/" + clienteId , {
+      method: "DELETE",
+      headers: new Headers({
+        Authorization: localStorage.getItem(key),
+      }),
+    });
+    window.location = "/view/cliente.html";
 }
 
 async function setCliente(id){

@@ -22,6 +22,7 @@ function show(produtos) {
                     <td>${produto.cor}</td>
                     <td>${produto.preco}</td>
                     <td><button type="button" onclick="getProduto(${produto.id})" class="btn btn-primary">Alterar</button></td>
+                    <td><button type="button" onclick="deleteProduto(${produto.id})" class="btn btn-danger">Delete</button></td>
                 </tr> `;
     }
 
@@ -95,6 +96,17 @@ async function getProduto(id) {
     console.log(data);
     if (response) hideLoader();
     alterar(data);
+}
+
+async function deleteProduto(produtoId){
+    let key = "Authorization";
+    const response = await fetch("http://localhost:8080/produto/" + produtoId , {
+      method: "DELETE",
+      headers: new Headers({
+        Authorization: localStorage.getItem(key),
+      }),
+    });
+    window.location = "/view/produto.html";
 }
 
 async function getProdutos() {

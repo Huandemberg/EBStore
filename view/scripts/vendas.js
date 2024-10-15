@@ -24,6 +24,7 @@ function show(vendas) {
                     <td>${venda.formPag}</td>
                     <td>${venda.user.nome}</td>
                     <td><button type="button" onclick="getVenda(${venda.id})" class="btn btn-primary">Alterar</button></td>
+                    <td><button type="button" onclick="deleteVenda(${venda.id})" class="btn btn-danger">Delete</button></td>
                 </tr> `;
     }
 
@@ -69,6 +70,17 @@ async function getVenda(id) {
     console.log(data);
     if (response) hideLoader();
     alterar(data);
+}
+
+async function deleteVenda(vendaId){
+    let key = "Authorization";
+    const response = await fetch("http://localhost:8080/venda/" + vendaId , {
+      method: "DELETE",
+      headers: new Headers({
+        Authorization: localStorage.getItem(key),
+      }),
+    });
+    window.location = "/view/vendas.html";
 }
 
 async function setVenda(id, data){
