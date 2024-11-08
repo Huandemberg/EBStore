@@ -70,6 +70,7 @@ public class ProdutoService {
         newObj.setCor(obj.getCor());
         newObj.setPreco(obj.getPreco());
         newObj.setTamanho(obj.getTamanho());
+        newObj.setEstoque(obj.getEstoque());
         return this.produtoRepository.save(newObj);
     }
 

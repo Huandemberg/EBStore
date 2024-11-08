@@ -12,4 +12,6 @@ public interface ProdutoProjection {
 
     public Float getPreco();
 
+    public int getEstoque();
+
 }

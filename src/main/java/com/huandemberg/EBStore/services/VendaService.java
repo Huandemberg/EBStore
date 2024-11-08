@@ -8,6 +8,7 @@ import com.huandemberg.EBStore.models.dto.VendaCreateDTO;
 import com.huandemberg.EBStore.models.dto.VendaUpdateDTO;
 import com.huandemberg.EBStore.models.enums.ProfileEnum;
 import com.huandemberg.EBStore.models.projection.VendaProjection;
+import com.huandemberg.EBStore.repositories.ProdutoRepository;
 import com.huandemberg.EBStore.repositories.VendaRepository;
 import com.huandemberg.EBStore.security.UserSpringSecurity;
 import com.huandemberg.EBStore.services.exceptions.AuthorizationException;
@@ -28,6 +29,9 @@ public class VendaService {
 
     @Autowired
     private VendaRepository vendaRepository;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     @Autowired
     private UserService userService;
@@ -66,6 +70,13 @@ public class VendaService {
             throw new AuthorizationException("Acesso negado!");
 
         User user = this.userService.findById(userSpringSecurity.getId());
+        Produto produto = obj.getProduto();
+        if(produto.getEstoque() >= obj.getQuantidade()){
+            produto.reduzirEstoque(obj.getQuantidade());
+            this.produtoRepository.save(produto);
+        } else {
+            throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
+        }
         obj.setId(null);
         obj.setUser(user);
         obj = this.vendaRepository.save(obj);
@@ -107,6 +118,7 @@ public class VendaService {
         venda.setValorCliente(obj.getValorCliente());
         venda.setData(obj.getData());
         venda.setFormPag(obj.getFormPag());
+        venda.setQuantidade(obj.getEstoque());
         return venda;
     }
 
@@ -119,6 +131,7 @@ public class VendaService {
         venda.setProduto(produto);
         venda.setValorCliente(obj.getValorCliente());
         venda.setFormPag(obj.getFormPag());
+        venda.setQuantidade(obj.getEstoque());
         return venda;
     }
  

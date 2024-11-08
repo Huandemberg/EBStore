@@ -22,4 +22,6 @@ public class VendaUpdateDTO {
     private Long cliente_Id;
 
     private Long produto_Id;
+
+    private int estoque;
 }

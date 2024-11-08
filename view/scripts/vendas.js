@@ -10,6 +10,7 @@ function show(vendas) {
                 <th scope="col">CLIENTE</th>
                 <th scope="col">PRODUTO</th>
                 <th scope="col">VALOR_CLIENTE</th>
+                <th scope="col">QUANTIDADE</th>
                 <th scope="col">FORMPAG</th>
                 <th scope="col">VENDEDOR</th>
                </thead>`;
@@ -21,6 +22,7 @@ function show(vendas) {
                     <td>${venda.cliente.nome}</td>
                     <td>${venda.produto.modelo}</td>
                     <td>${venda.valorCliente}</td>
+                    <td>${venda.quantidade}</td>
                     <td>${venda.formPag}</td>
                     <td>${venda.user.nome}</td>
                     <td><button type="button" onclick="getVenda(${venda.id})" class="btn btn-primary">Alterar</button></td>
@@ -122,6 +124,11 @@ async function getVendas() {
         }),
     });
 
+    if(response.status === 401 || response.status === 403){
+        localStorage.clear();
+        window.top.location = "/view/login.html";
+    }
+
     var data = await response.json();
     console.log(data);
     if (response) hideLoader();
@@ -130,7 +137,7 @@ async function getVendas() {
 
 document.addEventListener("DOMContentLoaded", function (event) {
     if (!localStorage.getItem("Authorization"))
-        window.location = "/view/login.html";
+        window.top.location = "/view/login.html";
 });
 
 getVendas();

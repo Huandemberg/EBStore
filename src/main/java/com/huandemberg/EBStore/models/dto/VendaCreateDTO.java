@@ -25,4 +25,6 @@ public class VendaCreateDTO {
 
     private Long produto_Id;
 
+    private int estoque;
+
 }

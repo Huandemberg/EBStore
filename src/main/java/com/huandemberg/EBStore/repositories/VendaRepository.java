@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface VendaRepository extends JpaRepository<Venda, Long> {
 
-    @Query("SELECT v.id AS id, v.produto AS produto, v.valorCliente AS valorCliente," +
+    @Query("SELECT v.id AS id, v.quantidade AS quantidade , v.produto AS produto, v.valorCliente AS valorCliente," +
             " v.formPag AS formPag, v.data AS data, v.user AS user, v.cliente AS cliente FROM Venda v")
     List<VendaProjection> findAllVendas();
 

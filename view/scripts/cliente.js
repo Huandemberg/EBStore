@@ -63,6 +63,11 @@ async function getClientes() {
         }),
     });
     
+    if(response.status === 401 || response.status === 403){
+        localStorage.clear();
+        window.top.location = "/view/login.html";
+    }
+
     var data = await response.json();
     console.log(data);
     if(response) hideLoader();
@@ -126,8 +131,8 @@ async function setCliente(id){
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    if (!localStorage.getItem("Authorization"))
-      window.location = "/view/login.html";
+    if (!localStorage.getItem("Authorization" ))
+      window.top.location = "/view/login.html";
   });
 
 getClientes();

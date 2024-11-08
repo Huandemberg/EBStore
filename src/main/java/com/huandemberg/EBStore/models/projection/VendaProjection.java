@@ -20,4 +20,6 @@ public interface VendaProjection {
 
     public Cliente getCliente();
 
+    public int getQuantidade();
+
 }

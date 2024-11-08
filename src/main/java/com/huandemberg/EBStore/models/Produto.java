@@ -40,4 +40,12 @@ public class Produto {
     @Column(name = "preco", nullable = false)
     @NotNull
     private Float preco;
+
+    @Column(name = "estoque", nullable = false)
+    @NotNull
+    private int estoque;
+
+    public void reduzirEstoque(int i) {
+        this.setEstoque(this.getEstoque() - i);
+    }
 }

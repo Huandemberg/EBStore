@@ -11,6 +11,7 @@ function show(produtos) {
                 <th scope="col">TAMANHO</th>
                 <th scope="col">COR</th>
                 <th scope="col">PREÇO</th>
+                <th scope="col">ESTOQUE</th>
                </thead>`;
     
     for (let produto of produtos) {
@@ -21,6 +22,7 @@ function show(produtos) {
                     <td>${produto.tamanho}</td>
                     <td>${produto.cor}</td>
                     <td>${produto.preco}</td>
+                    <td>${produto.estoque}</td>
                     <td><button type="button" onclick="getProduto(${produto.id})" class="btn btn-primary">Alterar</button></td>
                     <td><button type="button" onclick="deleteProduto(${produto.id})" class="btn btn-danger">Delete</button></td>
                 </tr> `;
@@ -92,6 +94,10 @@ async function getProduto(id) {
         }),
     });
 
+    if(response.status === 401 || response.status === 403){
+        localStorage.clear();
+    }
+
     var data = await response.json();
     console.log(data);
     if (response) hideLoader();
@@ -118,6 +124,11 @@ async function getProdutos() {
 
         }),
     });
+
+    if(response.status === 401 || response.status === 403){
+        localStorage.clear();
+        window.top.location = "/view/login.html";
+    }
     
     var data = await response.json();
     console.log(data);
@@ -127,7 +138,7 @@ async function getProdutos() {
 
 document.addEventListener("DOMContentLoaded", function (event) {
     if (!localStorage.getItem("Authorization"))
-      window.location = "/view/login.html";
+      window.top.location = "/view/login.html";
   });
 
   getProdutos();

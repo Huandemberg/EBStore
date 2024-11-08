@@ -2,6 +2,7 @@ package com.huandemberg.EBStore.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,5 +46,9 @@ public class Venda {
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false, updatable = true)
     private Cliente cliente;
+
+    @Column(name = "quantidade", nullable = false)
+    @NotNull
+    private int quantidade;
 
 }
