@@ -49,6 +49,10 @@ function alterar(produto) {
                     <label class="form-label">Preço</label>
                     <input type="number" value=${produto.preco} class="form-control" id="valorInput">
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Preço</label>
+                    <input type="number" value=${produto.estoque} class="form-control" id="estoqueInput">
+                </div>
                 <button type="button" onclick="setProduto(${produto.id})" class="btn btn-primary">Submit</button>
             </form>`;
 
@@ -62,7 +66,8 @@ async function setProduto(id){
     let modelo = document.getElementById("modelInput").value;
     let cor = document.getElementById("corInput").value;
     let tamanho = document.getElementById("tamanhoInput").value;
-    let preco = document.getElementById("valorInput").value; 
+    let preco = document.getElementById("valorInput").value;
+    let estoque = document.getElementById("estoqueInput").value; 
     let key = "Authorization";
     const response = await fetch(produtoEndpoint1, {
         method: "PUT",
@@ -76,7 +81,8 @@ async function setProduto(id){
             modelo: modelo,
             tamanho: tamanho,
             cor: cor,
-            preco: preco
+            preco: preco,
+            estoque: estoque
         }),
     });
     window.location = "/view/produto.html";

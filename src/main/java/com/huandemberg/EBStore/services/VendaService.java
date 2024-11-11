@@ -86,10 +86,18 @@ public class VendaService {
     @Transactional
     public Venda update(Venda obj) {
         Venda newObj = findById(obj.getId());
+        Produto produto = obj.getProduto();
         newObj.setCliente(obj.getCliente());
         newObj.setProduto(obj.getProduto());
         newObj.setValorCliente(obj.getValorCliente());
         newObj.setFormPag(obj.getFormPag());
+        if(produto.getEstoque() >= (obj.getQuantidade() - newObj.getQuantidade())){
+            produto.reduzirEstoque(obj.getQuantidade() - newObj.getQuantidade());
+            this.produtoRepository.save(produto);
+        } else {
+            throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
+        }
+        newObj.setQuantidade(obj.getQuantidade());
         return this.vendaRepository.save(newObj);
     }
 

@@ -51,6 +51,10 @@ function alterar(venda) {
                     <label class="form-label">Valor da compra</label>
                     <input type="number" value=${venda.valorCliente} class="form-control" id="valorInput">
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantidade</label>
+                    <input type="number" value=${venda.quantidade} class="form-control" id="quantidadeInput">
+                </div>
                 <button type="button" onclick="setVenda(${venda.id}, ${venda.data})" class="btn btn-primary">Submit</button>
             </form>`;
 
@@ -92,7 +96,8 @@ async function setVenda(id, data){
     let cliente_Id = document.getElementById("clienteInput").value;
     let produto_Id = document.getElementById("produtoInput").value;
     let formPag = document.getElementById("formPInput").value;
-    let valorC = document.getElementById("valorInput").value; 
+    let valorC = document.getElementById("valorInput").value;
+    let quantidadeC = document.getElementById("quantidadeInput").value;  
     let key = "Authorization";
     const response = await fetch(vendaEndpoint1, {
         method: "PUT",
@@ -108,6 +113,7 @@ async function setVenda(id, data){
             data: data,
             valorCliente: valorC,
             formPag: formPag,
+            estoque: quantidadeC
         }),
     });
     window.location = "/view/vendas.html";
