@@ -1,5 +1,7 @@
 package com.huandemberg.EBStore.models.dto;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,7 +23,7 @@ public class VendaUpdateDTO {
 
     private Long cliente_Id;
 
-    private Long produto_Id;
+    private List<Long> produto_Id;
 
     private int estoque;
 }

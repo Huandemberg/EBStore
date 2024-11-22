@@ -1,5 +1,7 @@
 package com.huandemberg.EBStore.models;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,9 +24,13 @@ public class Venda {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "produto_id", nullable = false, updatable = true)
-    private Produto produto;
+    @ManyToMany
+    @JoinTable(
+        name = "produto_venda",
+        joinColumns = @JoinColumn(name = "venda_id"),
+        inverseJoinColumns = @JoinColumn(name = "produto_id")
+    )
+    private List<Produto> produto;
 
     @Column(name = "valorCliente", nullable = false)
     private Float valorCliente;

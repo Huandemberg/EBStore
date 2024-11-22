@@ -44,6 +44,10 @@ public class ProdutoService {
         return produtos;
     }
 
+    public List<Produto> findAllByIds(List<Long> produtoIds) {
+        return this.produtoRepository.findAllByIds(produtoIds);
+    }
+
     public List<Produto> findAllByModeloLike(String name){
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if(Objects.isNull(userSpringSecurity))
