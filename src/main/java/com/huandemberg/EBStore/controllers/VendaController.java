@@ -35,6 +35,12 @@ public class VendaController {
         return ResponseEntity.ok().body(objs);
     }
 
+    @GetMapping("/debito")
+    public ResponseEntity<Double> findDebito() {
+        Double obj = this.vendaService.findDebito();
+        return ResponseEntity.ok().body(obj);
+    }
+
     @PostMapping
     @Validated
     public ResponseEntity<Void> create(@Valid @RequestBody VendaCreateDTO obj){

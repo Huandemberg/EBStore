@@ -2,6 +2,8 @@ package com.huandemberg.EBStore.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -47,14 +49,19 @@ public class Venda {
 
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = false, updatable = false)
+    @JsonIgnoreProperties({"situacao", "username", "cpf", "dataNasc", "email"})
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false, updatable = true)
+    @JsonIgnoreProperties({"email", "dataNasc", "cpf", "user", "email"})
     private Cliente cliente;
-
+   
     @Column(name = "quantidade", nullable = false)
     @NotNull
     private int quantidade;
+
+    @Column(name = "situacao", nullable = false)
+    private int situacao;
 
 }

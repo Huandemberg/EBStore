@@ -26,4 +26,6 @@ public class VendaUpdateDTO {
     private List<Long> produto_Id;
 
     private int estoque;
+
+    private int situacao;
 }

@@ -63,6 +63,14 @@ public class VendaService {
         return vendas;
     }
 
+    public Double findDebito() {
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if (Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+        Double valor = this.vendaRepository.findValorDebito();
+        return valor;
+    }
+
     @Transactional
     public Venda create(Venda obj) {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
@@ -79,6 +87,7 @@ public class VendaService {
                 throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
             }
         }
+        obj.setSituacao(0);
         obj.setId(null);
         obj.setUser(user);
         obj = this.vendaRepository.save(obj);
@@ -93,6 +102,7 @@ public class VendaService {
         newObj.setProduto(obj.getProduto());
         newObj.setValorCliente(obj.getValorCliente());
         newObj.setFormPag(obj.getFormPag());
+        newObj.setSituacao(obj.getSituacao());
         for (Produto produto : produtos) {
             if (produto.getEstoque() >= (obj.getQuantidade() - newObj.getQuantidade())) {
                 produto.reduzirEstoque(obj.getQuantidade() - newObj.getQuantidade());
@@ -104,6 +114,8 @@ public class VendaService {
         newObj.setQuantidade(obj.getQuantidade());
         return this.vendaRepository.save(newObj);
     }
+
+    
 
     public void delete(Long id) {
         findById(id);
@@ -146,6 +158,12 @@ public class VendaService {
         venda.setValorCliente(obj.getValorCliente());
         venda.setFormPag(obj.getFormPag());
         venda.setQuantidade(obj.getEstoque());
+        if(obj.getSituacao() == 0 || obj.getSituacao() == 1){
+            venda.setSituacao(obj.getSituacao());
+        } else {
+            throw new DataBindingViolationException("Entrada não aceita do parametro de 'Situação'");
+        }
+        
         return venda;
     }
 

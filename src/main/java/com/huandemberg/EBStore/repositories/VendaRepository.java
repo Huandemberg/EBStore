@@ -15,4 +15,6 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
             " v.formPag AS formPag, v.data AS data, v.user AS user, v.cliente AS cliente FROM Venda v")
     List<VendaProjection> findAllVendas();
 
+    @Query("SELECT SUM(v.valorCliente) FROM Venda v WHERE v.situacao = 0")
+    Double findValorDebito();
 }
