@@ -27,6 +27,6 @@ public class VendaCreateDTO {
 
     private List<Long> produto_Id;
 
-    private int estoque;
+    private List<Integer> estoque;
 
 }

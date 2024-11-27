@@ -35,7 +35,7 @@ public class Venda {
     private List<Produto> produto;
 
     @Column(name = "valorCliente", nullable = false)
-    private Float valorCliente;
+    private float valorCliente;
 
     @Column(name = "formPag", nullable = false)
     @NotBlank
@@ -59,7 +59,7 @@ public class Venda {
    
     @Column(name = "quantidade", nullable = false)
     @NotNull
-    private int quantidade;
+    private List<Integer> quantidade;
 
     @Column(name = "situacao", nullable = false)
     private int situacao;

@@ -79,14 +79,33 @@ public class VendaService {
 
         User user = this.userService.findById(userSpringSecurity.getId());
         List<Produto> produtos = obj.getProduto();
-        for (Produto produto : produtos) {
+        if(produtos.size() != obj.getQuantidade().size() - 1) {
+
+            for(int i = 0; i < produtos.size(); i++){
+            
+                Produto produto = produtos.get(i);
+                int quantidade = obj.getQuantidade().get(i);
+
+                if (produto.getEstoque() >= quantidade) {
+                    produto.reduzirEstoque(quantidade);
+                    this.produtoRepository.save(produto);
+                } else {
+                    throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
+                }
+            }
+
+        } else {
+            throw new DataBindingViolationException("Quantidade de produtos não informado corretamente");
+        }
+        
+        /*for (Produto produto : produtos) {
             if (produto.getEstoque() >= obj.getQuantidade()) {
                 produto.reduzirEstoque(obj.getQuantidade());
                 this.produtoRepository.save(produto);
             } else {
                 throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
             }
-        }
+        } */
         obj.setSituacao(0);
         obj.setId(null);
         obj.setUser(user);
@@ -103,6 +122,26 @@ public class VendaService {
         newObj.setValorCliente(obj.getValorCliente());
         newObj.setFormPag(obj.getFormPag());
         newObj.setSituacao(obj.getSituacao());
+        if(produtos.size() != obj.getQuantidade().size()) {
+
+            for(int i = 0; i < produtos.size(); i++){
+            
+                Produto produto = produtos.get(i);
+                int quantidade = obj.getQuantidade().get(i);
+                int newquantidade = newObj.getQuantidade().get(i);
+
+                if (produto.getEstoque() >= (quantidade - newquantidade)) {
+                    produto.reduzirEstoque(quantidade - newquantidade);
+                    this.produtoRepository.save(produto);
+                } else {
+                    throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
+                }
+            }
+
+        } else {
+            throw new DataBindingViolationException("Quantidade de produtos não informado corretamente");
+        }
+        /* 
         for (Produto produto : produtos) {
             if (produto.getEstoque() >= (obj.getQuantidade() - newObj.getQuantidade())) {
                 produto.reduzirEstoque(obj.getQuantidade() - newObj.getQuantidade());
@@ -110,7 +149,7 @@ public class VendaService {
             } else {
                 throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
             }
-        }
+        }*/
         newObj.setQuantidade(obj.getQuantidade());
         return this.vendaRepository.save(newObj);
     }
@@ -137,10 +176,13 @@ public class VendaService {
         List<Produto> produtos = this.produtoService.findAllByIds(prodIds);
         Cliente cliente = this.clienteService.findById(obj.getCliente_Id());
         Venda venda = new Venda();
+        for (Produto produto : produtos) {
+            venda.setValorCliente(venda.getValorCliente() + produto.getPreco());
+            
+        }
         venda.setUser(user);
         venda.setCliente(cliente);
         venda.setProduto(produtos);
-        venda.setValorCliente(obj.getValorCliente());
         venda.setData(obj.getData());
         venda.setFormPag(obj.getFormPag());
         venda.setQuantidade(obj.getEstoque());
@@ -152,10 +194,13 @@ public class VendaService {
         List<Produto> produtos = this.produtoService.findAllByIds(prodIds);
         Cliente cliente = this.clienteService.findById(obj.getCliente_Id());
         Venda venda = new Venda();
+        for (Produto produto : produtos) {
+            venda.setValorCliente(venda.getValorCliente() + produto.getPreco());
+            
+        }
         venda.setId(obj.getId());
         venda.setCliente(cliente);
         venda.setProduto(produtos);
-        venda.setValorCliente(obj.getValorCliente());
         venda.setFormPag(obj.getFormPag());
         venda.setQuantidade(obj.getEstoque());
         if(obj.getSituacao() == 0 || obj.getSituacao() == 1){

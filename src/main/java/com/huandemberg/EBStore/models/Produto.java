@@ -39,7 +39,7 @@ public class Produto {
 
     @Column(name = "preco", nullable = false)
     @NotNull
-    private Float preco;
+    private float preco;
 
     @Column(name = "estoque", nullable = false)
     @NotNull
