@@ -1,5 +1,6 @@
 package com.huandemberg.EBStore.controllers;
 
+import com.huandemberg.EBStore.models.Cliente;
 import com.huandemberg.EBStore.models.Venda;
 import com.huandemberg.EBStore.models.dto.VendaCreateDTO;
 import com.huandemberg.EBStore.models.dto.VendaUpdateDTO;
@@ -38,6 +39,18 @@ public class VendaController {
     @GetMapping("/debito")
     public ResponseEntity<Double> findDebito() {
         Double obj = this.vendaService.findDebito();
+        return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping("/debito/{id}")
+    public ResponseEntity<Double> findDebitoCliente(Long id) {
+        Double obj = this.vendaService.findDebitoCliente(id);
+        return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping("/debito/clientes")
+    public ResponseEntity<List<Cliente>> findClientesDebito() {
+        List<Cliente> obj = this.vendaService.findClientesDebito();
         return ResponseEntity.ok().body(obj);
     }
 

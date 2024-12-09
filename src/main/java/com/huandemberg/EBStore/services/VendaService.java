@@ -71,6 +71,22 @@ public class VendaService {
         return valor;
     }
 
+    public Double findDebitoCliente(Long id) {
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if (Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+        Double valor = this.vendaRepository.findValorDebitoCliente(id);
+        return valor;
+    }
+
+    public List<Cliente> findClientesDebito() {
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if (Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+        List<Cliente> clientes = this.vendaRepository.findClientesEmDebito();
+        return clientes;
+    }
+
     @Transactional
     public Venda create(Venda obj) {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
