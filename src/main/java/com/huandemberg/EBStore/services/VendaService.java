@@ -87,6 +87,14 @@ public class VendaService {
         return clientes;
     }
 
+    public List<Venda> findVendasByDate(String startDate, String endDate ) {
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if (Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+            List<Venda> vendas = this.vendaRepository.findVendasByDataAndSituacao(startDate, endDate);
+        return vendas;
+    }
+
     @Transactional
     public Venda create(Venda obj) {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();

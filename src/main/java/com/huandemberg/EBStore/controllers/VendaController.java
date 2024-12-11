@@ -2,6 +2,7 @@ package com.huandemberg.EBStore.controllers;
 
 import com.huandemberg.EBStore.models.Cliente;
 import com.huandemberg.EBStore.models.Venda;
+import com.huandemberg.EBStore.models.dto.DateRangeDTO;
 import com.huandemberg.EBStore.models.dto.VendaCreateDTO;
 import com.huandemberg.EBStore.models.dto.VendaUpdateDTO;
 import com.huandemberg.EBStore.models.projection.VendaProjection;
@@ -51,6 +52,12 @@ public class VendaController {
     @GetMapping("/debito/clientes")
     public ResponseEntity<List<Cliente>> findClientesDebito() {
         List<Cliente> obj = this.vendaService.findClientesDebito();
+        return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping("/debito/periodo")
+    public ResponseEntity<List<Venda>> findVendasByDate(@RequestBody DateRangeDTO dataRange) {
+        List<Venda> obj = this.vendaService.findVendasByDate(dataRange.getStartDate(), dataRange.getEndDate());
         return ResponseEntity.ok().body(obj);
     }
 

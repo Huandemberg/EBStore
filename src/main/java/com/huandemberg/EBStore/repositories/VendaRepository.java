@@ -26,5 +26,11 @@ public interface VendaRepository extends JpaRepository<Venda, Long> {
     @Query("SELECT DISTINCT v.cliente FROM Venda v WHERE v.situacao = 0")
     List<Cliente> findClientesEmDebito();
 
+    @Query("SELECT v " +
+           "FROM Venda v " +
+           "WHERE v.data BETWEEN :startDate AND :endDate " +
+           "AND v.situacao = 0")
+    List<Venda> findVendasByDataAndSituacao(@Param("startDate") String startDate, 
+                                            @Param("endDate") String endDate);
     
 }
