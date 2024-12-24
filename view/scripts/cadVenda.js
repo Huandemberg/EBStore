@@ -1,11 +1,12 @@
 async function newVenda(){
     let cliente_Id = document.getElementById("clienteImput").value;
     let produto_Id = document.getElementById("produtoImput").value;
+    const ids = produto_Id.split('.').map(Number);
     let formPag = document.getElementById("formPImput").value;
-    let valorC = document.getElementById("valorImput").value;
+    let quantidadeProdutos = document.getElementById("quantidadeImput").value;
+    const quantidades = quantidadeProdutos.split('.').map(Number);
     let data = document.getElementById("dataImput").value;
     let key = "Authorization";
-
     const response = await fetch("http://localhost:8080/venda", {
         method: "POST",
         headers: new Headers({
@@ -15,8 +16,8 @@ async function newVenda(){
         }),
         body: JSON.stringify({
             cliente_Id: cliente_Id,
-            produto_Id: produto_Id,
-            valorCliente: valorC,
+            produto_Id: ids,
+            estoque: quantidades,
             formPag: formPag,
             data: data
         }),

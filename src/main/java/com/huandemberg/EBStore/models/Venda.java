@@ -3,6 +3,7 @@ package com.huandemberg.EBStore.models;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.huandemberg.EBStore.models.convert.ListToJsonConverter;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -57,7 +58,8 @@ public class Venda {
     @JsonIgnoreProperties({"email", "dataNasc", "cpf", "user", "email"})
     private Cliente cliente;
    
-    @Column(name = "quantidade", nullable = false)
+    @Column(name = "quantidade", nullable = false, columnDefinition = "TEXT")
+    @Convert(converter = ListToJsonConverter.class)
     @NotNull
     private List<Integer> quantidade;
 

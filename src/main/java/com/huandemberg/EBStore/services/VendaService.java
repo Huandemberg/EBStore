@@ -199,10 +199,12 @@ public class VendaService {
         List<Long> prodIds = obj.getProduto_Id();
         List<Produto> produtos = this.produtoService.findAllByIds(prodIds);
         Cliente cliente = this.clienteService.findById(obj.getCliente_Id());
-        Venda venda = new Venda();
-        for (Produto produto : produtos) {
-            venda.setValorCliente(venda.getValorCliente() + produto.getPreco());
-            
+        Venda venda = new Venda();  
+        for(int i = 0; i < produtos.size(); i++) {
+            Produto produto = produtos.get(i);
+            Integer quantidade = obj.getEstoque().get(i);
+            venda.setValorCliente(venda.getValorCliente() + produto.getPreco() * quantidade);
+
         }
         venda.setUser(user);
         venda.setCliente(cliente);

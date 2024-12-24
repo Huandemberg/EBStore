@@ -3,6 +3,7 @@ com\huandemberg\EBStore\services\UserService.class
 com\huandemberg\EBStore\controllers\ProdutoController.class
 com\huandemberg\EBStore\repositories\ProdutoRepository.class
 com\huandemberg\EBStore\exceptions\ErrorResponse.class
+com\huandemberg\EBStore\models\convert\ListToJsonConverter.class
 com\huandemberg\EBStore\models\dto\UserUpdateDTO.class
 com\huandemberg\EBStore\models\dto\VendaUpdateDTO.class
 com\huandemberg\EBStore\models\Venda.class
@@ -10,6 +11,7 @@ com\huandemberg\EBStore\security\JWTAuthenticationFilter.class
 com\huandemberg\EBStore\models\Produto.class
 com\huandemberg\EBStore\services\exceptions\DataBindingViolationException.class
 com\huandemberg\EBStore\models\Cliente.class
+com\huandemberg\EBStore\models\convert\ListToJsonConverter$1.class
 com\huandemberg\EBStore\security\JWTAuthorizationFilter.class
 com\huandemberg\EBStore\services\VendaService.class
 com\huandemberg\EBStore\security\UserSpringSecurity.class
@@ -32,6 +34,7 @@ com\huandemberg\EBStore\models\dto\UserCreateDTO.class
 com\huandemberg\EBStore\repositories\ClienteRepository.class
 com\huandemberg\EBStore\models\enums\ProfileEnum.class
 com\huandemberg\EBStore\models\projection\ProdutoProjection.class
+com\huandemberg\EBStore\models\dto\DateRangeDTO.class
 com\huandemberg\EBStore\configs\SecurityConfig.class
 com\huandemberg\EBStore\EbStoreApplication.class
 com\huandemberg\EBStore\exceptions\GlobalExceptionHandler.class

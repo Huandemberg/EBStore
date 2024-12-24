@@ -6,28 +6,45 @@ function hideLoader() {
 
 function show(vendas) {
     let tab = `<thead>
-                <th scope="col">#</th>
-                <th scope="col">CLIENTE</th>
-                <th scope="col">PRODUTO</th>
-                <th scope="col">VALOR_CLIENTE</th>
-                <th scope="col">QUANTIDADE</th>
-                <th scope="col">FORMPAG</th>
-                <th scope="col">VENDEDOR</th>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">CLIENTE</th>
+                    <th scope="col">PRODUTO</th>
+                    <th scope="col">QUANTIDADE</th>
+                    <th scope="col">VALOR PAGO</th>
+                    <th scope="col">FORMA DE PAGAMENTO</th>
+                    <th scope="col">VENDEDOR</th>
+                    <th scope="col">DATA</th>
+                    <th scope="col">AÇÕES</th>
+                </tr>
                </thead>`;
 
+    vendas.sort((a, b) => a.id - b.id);       
+        
+
     for (let venda of vendas) {
+
+         
+
         tab += `
                 <tr>
                     <td scope="row">${venda.id}</td>
-                    <td>${venda.cliente.nome}</td>
-                    <td>${venda.produto.modelo}</td>
-                    <td>${venda.valorCliente}</td>
+                    <td>${venda.cliente?.nome || "Não informado"}</td>
+                    <td>
+                        ${venda.produto?.modelo || "Produto não informado"} 
+                        (${venda.produto?.cor || "Sem cor"}, 
+                        ${venda.produto?.tamanho || "Sem tamanho"})
+                    </td>
                     <td>${venda.quantidade}</td>
+                    <td>R$ ${venda.valorCliente.toFixed(2)}</td>
                     <td>${venda.formPag}</td>
-                    <td>${venda.user.nome}</td>
-                    <td><button type="button" onclick="getVenda(${venda.id})" class="btn btn-primary">Alterar</button></td>
-                    <td><button type="button" onclick="deleteVenda(${venda.id})" class="btn btn-danger">Delete</button></td>
-                </tr> `;
+                    <td>${venda.user?.nome || "Não informado"}</td>
+                    <td>${venda.data || "Data não informada"}</td>
+                    <td>
+                        <button type="button" onclick="editVenda(${venda.id})" class="btn btn-primary">Alterar</button>
+                        <button type="button" onclick="deleteVenda(${venda.id})" class="btn btn-danger">Excluir</button>
+                    </td>
+                </tr>`;
     }
 
     document.getElementById("vendas").innerHTML = tab;
