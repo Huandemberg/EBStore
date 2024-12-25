@@ -19,38 +19,51 @@ function show(vendas) {
                 </tr>
                </thead>`;
 
-    vendas.sort((a, b) => a.id - b.id);       
-        
+    const groupedVendas = vendas.reduce((acc, venda) => {
+        if (!acc[venda.id]) acc[venda.id] = { ...venda, produtos: [] };
+        acc[venda.id].produtos.push({
+            modelo: venda.produto.modelo,
+            cor: venda.produto.cor,
+            tamanho: venda.produto.tamanho,
+            quantidade: venda.quantidade,
+        });
+        return acc;
+    }, {});
 
-    for (let venda of vendas) {
+    vendas.sort((a, b) => a.id - b.id);
 
-         
 
-        tab += `
+    for (let vendaId in groupedVendas) {
+        const venda = groupedVendas[vendaId];
+        const { cliente, formPag, valorCliente, user, data, produtos } = venda;
+
+        // Adiciona cada produto como uma linha separada
+        produtos.forEach((produto, index) => {
+            tab += `
                 <tr>
-                    <td scope="row">${venda.id}</td>
-                    <td>${venda.cliente?.nome || "Não informado"}</td>
+                    <td>${venda.id}</td>
+                    <td>${cliente?.nome || "Não informado"}</td>
                     <td>
-                        ${venda.produto?.modelo || "Produto não informado"} 
-                        (${venda.produto?.cor || "Sem cor"}, 
-                        ${venda.produto?.tamanho || "Sem tamanho"})
+                        ${produto.modelo} (${produto.cor}, ${produto.tamanho})
                     </td>
-                    <td>${venda.quantidade}</td>
-                    <td>R$ ${venda.valorCliente.toFixed(2)}</td>
-                    <td>${venda.formPag}</td>
-                    <td>${venda.user?.nome || "Não informado"}</td>
-                    <td>${venda.data || "Data não informada"}</td>
+                    <td>${produto.quantidade[index] || "Quantidade não informada"}</td>
+                    <td>R$ ${valorCliente.toFixed(2)}</td>
+                    <td>${formPag}</td>
+                    <td>${user?.nome || "Não informado"}</td>
+                    <td>${data || "Data não informada"}</td>
                     <td>
-                        <button type="button" onclick="editVenda(${venda.id})" class="btn btn-primary">Alterar</button>
+                        <button type="button" onclick="alterar(${venda.id})" class="btn btn-primary">Alterar</button>
                         <button type="button" onclick="deleteVenda(${venda.id})" class="btn btn-danger">Excluir</button>
                     </td>
                 </tr>`;
+        });
     }
 
     document.getElementById("vendas").innerHTML = tab;
 }
 
 function alterar(venda) {
+    getVenda(venda)
     tab = `<form>
                 <div class="mb-3">
                     <label class="form-label">Cliente_Id</label>
@@ -70,12 +83,12 @@ function alterar(venda) {
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Quantidade</label>
-                    <input type="number" value=${venda.quantidade} class="form-control" id="quantidadeInput">
+                    <input type="Text" value=${venda.quantidade} class="form-control" id="quantidadeInput">
                 </div>
                 <button type="button" onclick="setVenda(${venda.id}, ${venda.data})" class="btn btn-primary">Submit</button>
             </form>`;
 
-            document.getElementById("vendas").innerHTML = tab;
+    document.getElementById("vendas").innerHTML = tab;
 }
 
 async function getVenda(id) {
@@ -95,18 +108,18 @@ async function getVenda(id) {
     alterar(data);
 }
 
-async function deleteVenda(vendaId){
+async function deleteVenda(vendaId) {
     let key = "Authorization";
-    const response = await fetch("http://localhost:8080/venda/" + vendaId , {
-      method: "DELETE",
-      headers: new Headers({
-        Authorization: localStorage.getItem(key),
-      }),
+    const response = await fetch("http://localhost:8080/venda/" + vendaId, {
+        method: "DELETE",
+        headers: new Headers({
+            Authorization: localStorage.getItem(key),
+        }),
     });
     window.location = "/view/vendas.html";
 }
 
-async function setVenda(id, data){
+async function setVenda(id, data) {
 
 
     const vendaEndpoint1 = "http://localhost:8080/venda/" + id;
@@ -114,7 +127,7 @@ async function setVenda(id, data){
     let produto_Id = document.getElementById("produtoInput").value;
     let formPag = document.getElementById("formPInput").value;
     let valorC = document.getElementById("valorInput").value;
-    let quantidadeC = document.getElementById("quantidadeInput").value;  
+    let quantidadeC = document.getElementById("quantidadeInput").value;
     let key = "Authorization";
     const response = await fetch(vendaEndpoint1, {
         method: "PUT",
@@ -147,7 +160,7 @@ async function getVendas() {
         }),
     });
 
-    if(response.status === 401 || response.status === 403){
+    if (response.status === 401 || response.status === 403) {
         localStorage.clear();
         window.top.location = "/view/login.html";
     }
