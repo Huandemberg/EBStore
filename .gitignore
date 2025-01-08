@@ -25,3 +25,4 @@ replay_pid*
 /target
 target/classes/application-dev.properties
 target/
+target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
