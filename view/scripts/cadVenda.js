@@ -5,7 +5,7 @@ async function newVenda(){
     let formPag = document.getElementById("formPImput").value;
     let quantidadeProdutos = document.getElementById("quantidadeImput").value;
     const quantidades = quantidadeProdutos.split('.').map(Number);
-    let data = document.getElementById("dataImput").value;
+    let data = formatarData(document.getElementById("dataImput").value);
     let key = "Authorization";
     const response = await fetch("http://localhost:8080/venda", {
         method: "POST",
@@ -31,8 +31,14 @@ async function newVenda(){
     
       window.setTimeout(function () {
         window.location = "/view/vendas.html";
-      }, 2000);
+      }, 1000);
 }
+
+function formatarData(data) {
+  const [ano, mes, dia] = data.split('-');
+  return `${dia}/${mes}/${ano}`;
+}
+
 
 function showToast(id) {
     var toastElList = [].slice.call(document.querySelectorAll(id));

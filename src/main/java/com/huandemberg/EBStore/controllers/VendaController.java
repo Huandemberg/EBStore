@@ -5,6 +5,7 @@ import com.huandemberg.EBStore.models.Venda;
 import com.huandemberg.EBStore.models.dto.DateRangeDTO;
 import com.huandemberg.EBStore.models.dto.VendaCreateDTO;
 import com.huandemberg.EBStore.models.dto.VendaUpdateDTO;
+import com.huandemberg.EBStore.models.projection.ClienteDebitoProjection;
 import com.huandemberg.EBStore.models.projection.VendaProjection;
 import com.huandemberg.EBStore.services.VendaService;
 import jakarta.validation.Valid;
@@ -44,9 +45,15 @@ public class VendaController {
     }
 
     @GetMapping("/debito/{id}")
-    public ResponseEntity<Double> findDebitoCliente(Long id) {
+    public ResponseEntity<Double> findDebitoCliente(@PathVariable Long id) {
         Double obj = this.vendaService.findDebitoCliente(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping("/debito/cliente/{id}")
+    public ResponseEntity<List<ClienteDebitoProjection>> findVendasEmDebitoCliente(@PathVariable Long id) {
+        List<ClienteDebitoProjection> vendas = this.vendaService.findVendasEmDebidoCliente(id);
+        return ResponseEntity.ok().body(vendas);
     }
 
     @GetMapping("/debito/clientes")
@@ -55,7 +62,7 @@ public class VendaController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @GetMapping("/debito/periodo")
+    @PostMapping("/debito/periodo")
     public ResponseEntity<List<Venda>> findVendasByDate(@RequestBody DateRangeDTO dataRange) {
         List<Venda> obj = this.vendaService.findVendasByDate(dataRange.getStartDate(), dataRange.getEndDate());
         return ResponseEntity.ok().body(obj);

@@ -7,6 +7,7 @@ import com.huandemberg.EBStore.models.Venda;
 import com.huandemberg.EBStore.models.dto.VendaCreateDTO;
 import com.huandemberg.EBStore.models.dto.VendaUpdateDTO;
 import com.huandemberg.EBStore.models.enums.ProfileEnum;
+import com.huandemberg.EBStore.models.projection.ClienteDebitoProjection;
 import com.huandemberg.EBStore.models.projection.VendaProjection;
 import com.huandemberg.EBStore.repositories.ProdutoRepository;
 import com.huandemberg.EBStore.repositories.VendaRepository;
@@ -61,6 +62,15 @@ public class VendaService {
 
         List<VendaProjection> vendas = this.vendaRepository.findAllVendas();
         return vendas;
+    }
+
+    public List<ClienteDebitoProjection> findVendasEmDebidoCliente(Long id) {
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if (Objects.isNull(userSpringSecurity))
+            throw new AuthorizationException("Acesso negado!");
+
+        List<ClienteDebitoProjection> debitos = this.vendaRepository.findRelatorioVendasClientesDebito(id);
+        return debitos;
     }
 
     public Double findDebito() {
