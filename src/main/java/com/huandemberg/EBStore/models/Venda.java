@@ -66,4 +66,8 @@ public class Venda {
     @Column(name = "situacao", nullable = false)
     private int situacao;
 
+    @ManyToOne
+    @JoinColumn(name = "caixa_id", nullable = true)
+    private Caixa caixa;
+
 }
