@@ -97,11 +97,11 @@ public class VendaService {
         return clientes;
     }
 
-    public List<Venda> findVendasByDate(String startDate, String endDate ) {
+    public List<Venda> findVendasByDate(String startDate, String endDate) {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if (Objects.isNull(userSpringSecurity))
             throw new AuthorizationException("Acesso negado!");
-            List<Venda> vendas = this.vendaRepository.findVendasByDataAndSituacao(startDate, endDate);
+        List<Venda> vendas = this.vendaRepository.findVendasByDataAndSituacao(startDate, endDate);
         return vendas;
     }
 
@@ -113,10 +113,10 @@ public class VendaService {
 
         User user = this.userService.findById(userSpringSecurity.getId());
         List<Produto> produtos = obj.getProduto();
-        if(produtos.size() != obj.getQuantidade().size() - 1) {
+        if (produtos.size() != obj.getQuantidade().size() - 1) {
 
-            for(int i = 0; i < produtos.size(); i++){
-            
+            for (int i = 0; i < produtos.size(); i++) {
+
                 Produto produto = produtos.get(i);
                 int quantidade = obj.getQuantidade().get(i);
 
@@ -131,15 +131,19 @@ public class VendaService {
         } else {
             throw new DataBindingViolationException("Quantidade de produtos não informado corretamente");
         }
-        
-        /*for (Produto produto : produtos) {
-            if (produto.getEstoque() >= obj.getQuantidade()) {
-                produto.reduzirEstoque(obj.getQuantidade());
-                this.produtoRepository.save(produto);
-            } else {
-                throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
-            }
-        } */
+
+        /*
+         * for (Produto produto : produtos) {
+         * if (produto.getEstoque() >= obj.getQuantidade()) {
+         * produto.reduzirEstoque(obj.getQuantidade());
+         * this.produtoRepository.save(produto);
+         * } else {
+         * throw new
+         * DataBindingViolationException("Estoque insuficiente para a operação solicitada"
+         * );
+         * }
+         * }
+         */
         obj.setSituacao(0);
         obj.setId(null);
         obj.setUser(user);
@@ -156,10 +160,10 @@ public class VendaService {
         newObj.setValorCliente(obj.getValorCliente());
         newObj.setFormPag(obj.getFormPag());
         newObj.setSituacao(obj.getSituacao());
-        if(produtos.size() != obj.getQuantidade().size()) {
+        if (produtos.size() != obj.getQuantidade().size()) {
 
-            for(int i = 0; i < produtos.size(); i++){
-            
+            for (int i = 0; i < produtos.size(); i++) {
+
                 Produto produto = produtos.get(i);
                 int quantidade = obj.getQuantidade().get(i);
                 int newquantidade = newObj.getQuantidade().get(i);
@@ -175,20 +179,37 @@ public class VendaService {
         } else {
             throw new DataBindingViolationException("Quantidade de produtos não informado corretamente");
         }
-        /* 
-        for (Produto produto : produtos) {
-            if (produto.getEstoque() >= (obj.getQuantidade() - newObj.getQuantidade())) {
-                produto.reduzirEstoque(obj.getQuantidade() - newObj.getQuantidade());
-                this.produtoRepository.save(produto);
-            } else {
-                throw new DataBindingViolationException("Estoque insuficiente para a operação solicitada");
-            }
-        }*/
+        /*
+         * for (Produto produto : produtos) {
+         * if (produto.getEstoque() >= (obj.getQuantidade() - newObj.getQuantidade())) {
+         * produto.reduzirEstoque(obj.getQuantidade() - newObj.getQuantidade());
+         * this.produtoRepository.save(produto);
+         * } else {
+         * throw new
+         * DataBindingViolationException("Estoque insuficiente para a operação solicitada"
+         * );
+         * }
+         * }
+         */
         newObj.setQuantidade(obj.getQuantidade());
         return this.vendaRepository.save(newObj);
     }
 
-    
+    @Transactional
+    public Venda updateBaixa(Venda obj) {
+        Venda newObj = this.findById(obj.getId());
+        newObj.fechamento();
+        return this.vendaRepository.save(newObj);
+
+    }
+
+    @Transactional
+    public Venda updateReabertura(Venda obj) {
+        Venda newObj = this.findById(obj.getId());
+        newObj.reabertura();
+        return this.vendaRepository.save(newObj);
+
+    }
 
     public void delete(Long id) {
         findById(id);
@@ -209,8 +230,8 @@ public class VendaService {
         List<Long> prodIds = obj.getProduto_Id();
         List<Produto> produtos = this.produtoService.findAllByIds(prodIds);
         Cliente cliente = this.clienteService.findById(obj.getCliente_Id());
-        Venda venda = new Venda();  
-        for(int i = 0; i < produtos.size(); i++) {
+        Venda venda = new Venda();
+        for (int i = 0; i < produtos.size(); i++) {
             Produto produto = produtos.get(i);
             Integer quantidade = obj.getEstoque().get(i);
             venda.setValorCliente(venda.getValorCliente() + produto.getPreco() * quantidade);
@@ -232,19 +253,19 @@ public class VendaService {
         Venda venda = new Venda();
         for (Produto produto : produtos) {
             venda.setValorCliente(venda.getValorCliente() + produto.getPreco());
-            
+
         }
         venda.setId(obj.getId());
         venda.setCliente(cliente);
         venda.setProduto(produtos);
         venda.setFormPag(obj.getFormPag());
         venda.setQuantidade(obj.getEstoque());
-        if(obj.getSituacao() == 0 || obj.getSituacao() == 1){
+        if (obj.getSituacao() == 0 || obj.getSituacao() == 1) {
             venda.setSituacao(obj.getSituacao());
         } else {
             throw new DataBindingViolationException("Entrada não aceita do parametro de 'Situação'");
         }
-        
+
         return venda;
     }
 

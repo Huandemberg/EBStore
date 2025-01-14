@@ -41,6 +41,10 @@ public class Produto {
     @NotNull
     private float preco;
 
+    @Column(name = "precoFornecedor", nullable = false)
+    @NotNull
+    private float precoFornecedor;
+
     @Column(name = "estoque", nullable = false)
     @NotNull
     private int estoque;
