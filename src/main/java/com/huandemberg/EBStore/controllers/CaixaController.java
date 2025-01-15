@@ -15,50 +15,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.huandemberg.EBStore.models.Transacao;
-import com.huandemberg.EBStore.services.TransacaoService;
+import com.huandemberg.EBStore.models.Caixa;
+import com.huandemberg.EBStore.services.CaixaService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/transacao")
+@RequestMapping("/caixa")
 @Validated
-public class TransacaoController {
+public class CaixaController {
 
     @Autowired
-    private TransacaoService transacaoService;
+    private CaixaService caixaService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transacao> findById(@PathVariable Long id) {
+    public ResponseEntity<Caixa> findById(@PathVariable Long id){
 
-        Transacao obj = this.transacaoService.findById(id);
+        Caixa obj = this.caixaService.findById(id);
         return ResponseEntity.ok(obj);
 
     }
 
-    @GetMapping("/transacoes")
-    public ResponseEntity<List<Transacao>> findAllTransacoes() {
-
-        List<Transacao> objs = this.transacaoService.findAll();
+    @GetMapping("/caixas")
+    public ResponseEntity<List<Caixa>> findByAllCaixas() {
+        
+        List<Caixa> objs = this.caixaService.findAllCaixas();
         return ResponseEntity.ok().body(objs);
+
     }
-    
+
     @PostMapping
     @Validated
-    public ResponseEntity<Void> create(@Valid @RequestBody Transacao obj) {
+    public ResponseEntity<Void> create(@Valid @RequestBody Caixa obj) {
 
-        Transacao transacao = this.transacaoService.create(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(transacao.getId()).toUri();
+        Caixa caixa = this.caixaService.create(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(caixa.getId()).toUri();
         return ResponseEntity.created(uri).build();
 
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        
-        this.transacaoService.delete(id);
-        return ResponseEntity.noContent().build();
 
+        this.caixaService.delete(id);
+        return ResponseEntity.noContent().build();
+        
     }
 
+
+    
 }

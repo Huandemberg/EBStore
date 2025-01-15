@@ -55,6 +55,10 @@ public class Transacao {
     @JsonIgnoreProperties({"situacao", "username", "cpf", "dataNasc", "email"})
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "caixa_id", nullable = false, updatable = true)
+    private Caixa caixa;
+
     public void calcTransacao(List<Venda> vendas) {
         for (Venda venda : vendas) {
 
