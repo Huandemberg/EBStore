@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.huandemberg.EBStore.models.Transacao;
 import com.huandemberg.EBStore.services.TransacaoService;
+import com.huandemberg.EBStore.services.exceptions.DataBindingViolationException;
 
 import jakarta.validation.Valid;
 
@@ -42,20 +43,25 @@ public class TransacaoController {
         List<Transacao> objs = this.transacaoService.findAll();
         return ResponseEntity.ok().body(objs);
     }
-    
-    @PostMapping
-    @Validated
-    public ResponseEntity<Void> create(@Valid @RequestBody Transacao obj) {
 
-        Transacao transacao = this.transacaoService.create(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(transacao.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+    @PostMapping("/receber")
+    @Validated
+    public ResponseEntity<Void> createReceber(@Valid @RequestBody Transacao obj) {
+
+        try {
+            Transacao transacao = this.transacaoService.createIncrement(obj);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(transacao.getId())
+                    .toUri();
+            return ResponseEntity.created(uri).build();
+        } catch (Exception e) {
+            throw new DataBindingViolationException(e.getMessage());
+        }
 
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        
+
         this.transacaoService.delete(id);
         return ResponseEntity.noContent().build();
 

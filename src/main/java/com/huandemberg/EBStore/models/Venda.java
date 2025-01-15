@@ -2,6 +2,7 @@ package com.huandemberg.EBStore.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.huandemberg.EBStore.models.convert.ListToJsonConverter;
 
@@ -64,6 +65,7 @@ public class Venda {
 
     @ManyToOne
     @JoinColumn(name = "transacao_id", nullable = true)
+    @JsonIgnore
     private Transacao transacao;
 
     public void fechamento() {

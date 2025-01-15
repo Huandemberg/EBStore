@@ -113,7 +113,7 @@ public class VendaService {
 
         User user = this.userService.findById(userSpringSecurity.getId());
         List<Produto> produtos = obj.getProduto();
-        if (produtos.size() != obj.getQuantidade().size() - 1) {
+        if (produtos.size() == obj.getQuantidade().size()) {
 
             for (int i = 0; i < produtos.size(); i++) {
 
@@ -160,7 +160,7 @@ public class VendaService {
         newObj.setValorCliente(obj.getValorCliente());
         newObj.setFormPag(obj.getFormPag());
         newObj.setSituacao(obj.getSituacao());
-        if (produtos.size() != obj.getQuantidade().size()) {
+        if (produtos.size() == obj.getQuantidade().size()) {
 
             for (int i = 0; i < produtos.size(); i++) {
 
@@ -177,7 +177,7 @@ public class VendaService {
             }
 
         } else {
-            throw new DataBindingViolationException("Quantidade de produtos não informado corretamente");
+            throw new DataBindingViolationException("Quantidade de produtos não informado corretamente" + obj.getQuantidade().size() + " " + produtos.size());
         }
         /*
          * for (Produto produto : produtos) {
@@ -251,8 +251,10 @@ public class VendaService {
         List<Produto> produtos = this.produtoService.findAllByIds(prodIds);
         Cliente cliente = this.clienteService.findById(obj.getCliente_Id());
         Venda venda = new Venda();
-        for (Produto produto : produtos) {
-            venda.setValorCliente(venda.getValorCliente() + produto.getPreco());
+        for (int i = 0; i < produtos.size(); i++) {
+            Produto produto = produtos.get(i);
+            Integer quantidade = obj.getEstoque().get(i);
+            venda.setValorCliente(venda.getValorCliente() + produto.getPreco() * quantidade);
 
         }
         venda.setId(obj.getId());

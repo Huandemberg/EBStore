@@ -57,7 +57,31 @@ public class TransacaoService {
     }
 
     @Transactional
-    public Transacao create(Transacao obj) {
+    public Transacao createIncrement(Transacao obj) {
+
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
+        if (Objects.isNull(userSpringSecurity)) {
+            throw new AuthorizationException("Acesso negado!");
+        }
+
+        User user = this.userService.findById(userSpringSecurity.getId());
+        List<Venda> vendas = obj.getVendas();
+        Transacao newObj = new Transacao();
+        obj.setTipoTransacao(1);
+        obj.calcTransacao(vendas);
+        this.caixaService.updateIncrementar(obj.getCaixa(), obj.getValorTransacao());
+        obj.setId(newObj.getId());
+        obj.setUser(user);
+        for (Venda venda : vendas) {
+            this.vendaService.updateBaixa(venda);
+        }
+        obj = this.transacaoRepository.save(obj);
+        return obj;
+
+    }
+
+    @Transactional
+    public Transacao createDecrement(Transacao obj) {
 
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if (Objects.isNull(userSpringSecurity)) {
@@ -67,22 +91,24 @@ public class TransacaoService {
         User user = this.userService.findById(userSpringSecurity.getId());
         List<Venda> vendas = obj.getVendas();
         obj.calcTransacao(vendas);
-        // Tipo de transação(1) para adicionar ao caixa, efetivamente venda
-        if (obj.getTipoTransacao() == 1) {
+/*         // Tipo de transação(1) para adicionar ao caixa, efetivamente venda
+        if (Integer.valueOf(1).equals(obj.getTipoTransacao())) {
 
             this.caixaService.updateIncrementar(obj.getCaixa(), obj.getValorTransacao());
 
         } // Tipo de transação(0) para deduzir do caixa, efetivamente contas a pagar
-        if (obj.getTipoTransacao() == 0) {
+        if (Integer.valueOf(0).equals(obj.getTipoTransacao())) {
 
             this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao());
 
         } else {
 
             throw new DataBindingViolationException(
-                    "Formato de entrada da requisição incompativel com o campo 'Tipo de transação' ");
+                    "Formato de entrada da requisição incompativel com o campo 'Tipo de transação' " + obj.getTipoTransacao() + "tipo de dado: " + ((Object) obj.getTipoTransacao()).getClass());
 
-        }
+        } */
+        obj.setTipoTransacao(0);
+        this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao()); obj.getValorTransacao();
         obj.setId(null);
         obj.setUser(user);
         for (Venda venda : vendas) {

@@ -35,7 +35,7 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({ "username", "cpf", "dataNasc", "email"})
     private List<Venda> vendas;
 
@@ -44,9 +44,10 @@ public class Transacao {
     @Size(min = 8, max = 360)
     private String descricao;
 
-    @Column(name = "valorTransacao", nullable = false)
+    @Column(name = "valorTransacao", nullable = true)
     private float valorTransacao;
 
+    //1 para recebimento(entrada do caixa) e 0 para pagamento(saida do caixa)
     @Column(name = "tipoTransacao", nullable = false)
     private int tipoTransacao;
 
