@@ -35,7 +35,7 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "transacao", cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonIgnoreProperties({ "username", "cpf", "dataNasc", "email"})
     private List<Venda> vendas;
 
@@ -66,6 +66,12 @@ public class Transacao {
             this.setValorTransacao(venda.getValorCliente() +  this.getValorTransacao());
 
         }
+    }
+
+    public void calcTransacaoTeste(Venda venda) {
+        
+            this.setValorTransacao(venda.getValorCliente() +  this.getValorTransacao());
+        
     }
 
 }

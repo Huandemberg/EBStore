@@ -1,5 +1,6 @@
 package com.huandemberg.EBStore.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,15 +67,18 @@ public class TransacaoService {
 
         User user = this.userService.findById(userSpringSecurity.getId());
         List<Venda> vendas = obj.getVendas();
-        Transacao newObj = new Transacao();
+        List<Venda> vendas2 = new ArrayList<>();
         obj.setTipoTransacao(1);
-        obj.calcTransacao(vendas);
-        this.caixaService.updateIncrementar(obj.getCaixa(), obj.getValorTransacao());
-        obj.setId(newObj.getId());
+        /* obj.calcTransacao(vendas); */
         obj.setUser(user);
         for (Venda venda : vendas) {
+            Venda objV = this.vendaService.findById(venda.getId());
+            vendas2.add(objV);
+            obj.calcTransacaoTeste(objV);
             this.vendaService.updateBaixa(venda);
         }
+        this.caixaService.updateIncrementar(obj.getCaixa(), obj.getValorTransacao());
+        obj.setVendas(vendas2);
         obj = this.transacaoRepository.save(obj);
         return obj;
 
@@ -118,6 +122,7 @@ public class TransacaoService {
         return obj;
 
     }
+    
 
     public Transacao updateExclusao(Transacao obj) {
         Transacao newObj = findById(obj.getId());
