@@ -2,6 +2,7 @@ package com.huandemberg.EBStore.services;
 
 import com.huandemberg.EBStore.models.Cliente;
 import com.huandemberg.EBStore.models.Produto;
+import com.huandemberg.EBStore.models.Transacao;
 import com.huandemberg.EBStore.models.User;
 import com.huandemberg.EBStore.models.Venda;
 import com.huandemberg.EBStore.models.dto.VendaCreateDTO;
@@ -149,6 +150,13 @@ public class VendaService {
         obj.setUser(user);
         obj = this.vendaRepository.save(obj);
         return obj;
+    }
+
+    @Transactional
+    public Venda updateTransacao(Venda obj, Transacao transacao){
+        Venda newObj = findById(obj.getId());
+        newObj.setTransacao(transacao);
+        return this.vendaRepository.save(newObj);
     }
 
     @Transactional

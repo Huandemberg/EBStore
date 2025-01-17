@@ -80,6 +80,9 @@ public class TransacaoService {
         this.caixaService.updateIncrementar(obj.getCaixa(), obj.getValorTransacao());
         obj.setVendas(vendas2);
         obj = this.transacaoRepository.save(obj);
+        for (Venda venda : vendas) {
+            this.vendaService.updateTransacao(venda, obj);
+        }
         return obj;
 
     }
