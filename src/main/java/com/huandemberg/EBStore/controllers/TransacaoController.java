@@ -59,6 +59,21 @@ public class TransacaoController {
 
     }
 
+    @PostMapping("/debitar")
+    @Validated
+    public ResponseEntity<Void> createDebitar(@Valid @RequestBody Transacao obj) {
+
+        try {
+            Transacao transacao = this.transacaoService.createDecrement(obj);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(transacao.getId())
+                    .toUri();
+            return ResponseEntity.created(uri).build();
+        } catch (Exception e) {
+            throw new DataBindingViolationException(e.getMessage());
+        }
+
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 

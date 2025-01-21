@@ -215,6 +215,7 @@ public class VendaService {
     @Transactional
     public Venda updateReabertura(Venda obj) {
         Venda newObj = this.findById(obj.getId());
+        newObj.setTransacao(null);
         newObj.reabertura();
         return this.vendaRepository.save(newObj);
 

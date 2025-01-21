@@ -69,11 +69,13 @@ public class TransacaoService {
         List<Venda> vendas = obj.getVendas();
         List<Venda> vendas2 = new ArrayList<>();
         obj.setTipoTransacao(1);
-        /* obj.calcTransacao(vendas); */
         obj.setUser(user);
         for (Venda venda : vendas) {
             Venda objV = this.vendaService.findById(venda.getId());
             vendas2.add(objV);
+            if(objV.getTransacao() != null){
+                throw new DataBindingViolationException("Já existe transação relacionada em alguma venda listada!");
+            }
             obj.calcTransacaoTeste(objV);
             this.vendaService.updateBaixa(venda);
         }
@@ -97,31 +99,24 @@ public class TransacaoService {
 
         User user = this.userService.findById(userSpringSecurity.getId());
         List<Venda> vendas = obj.getVendas();
-        obj.calcTransacao(vendas);
-/*         // Tipo de transação(1) para adicionar ao caixa, efetivamente venda
-        if (Integer.valueOf(1).equals(obj.getTipoTransacao())) {
-
-            this.caixaService.updateIncrementar(obj.getCaixa(), obj.getValorTransacao());
-
-        } // Tipo de transação(0) para deduzir do caixa, efetivamente contas a pagar
-        if (Integer.valueOf(0).equals(obj.getTipoTransacao())) {
-
-            this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao());
-
-        } else {
-
-            throw new DataBindingViolationException(
-                    "Formato de entrada da requisição incompativel com o campo 'Tipo de transação' " + obj.getTipoTransacao() + "tipo de dado: " + ((Object) obj.getTipoTransacao()).getClass());
-
-        } */
+        List<Venda> vendas2 = new ArrayList<>();
         obj.setTipoTransacao(0);
-        this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao()); obj.getValorTransacao();
-        obj.setId(null);
         obj.setUser(user);
         for (Venda venda : vendas) {
+            Venda objV = this.vendaService.findById(venda.getId());
+            vendas2.add(objV);
+            if(objV.getTransacao() != null){
+                throw new DataBindingViolationException("Já existe transação relacionada em alguma venda listada!");
+            }
+            obj.calcTransacaoTeste(objV);
             this.vendaService.updateBaixa(venda);
         }
+        this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao());
+        obj.setVendas(vendas2);
         obj = this.transacaoRepository.save(obj);
+        for (Venda venda : vendas) {
+            this.vendaService.updateTransacao(venda, obj);
+        }
         return obj;
 
     }
