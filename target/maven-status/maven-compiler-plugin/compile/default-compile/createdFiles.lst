@@ -7,6 +7,7 @@ com\huandemberg\EBStore\models\convert\ListToJsonConverter$1.class
 com\huandemberg\EBStore\security\JWTAuthorizationFilter.class
 com\huandemberg\EBStore\controllers\CaixaController.class
 com\huandemberg\EBStore\services\VendaService.class
+com\huandemberg\EBStore\repositories\TransacaoRepository.class
 com\huandemberg\EBStore\security\UserSpringSecurity.class
 com\huandemberg\EBStore\controllers\VendaController.class
 com\huandemberg\EBStore\configs\Webconfig.class
@@ -22,7 +23,9 @@ com\huandemberg\EBStore\models\projection\ProdutoProjection.class
 com\huandemberg\EBStore\exceptions\GlobalExceptionHandler.class
 com\huandemberg\EBStore\repositories\UserRepository.class
 com\huandemberg\EBStore\security\JWTUtil.class
+com\huandemberg\EBStore\models\Transacao.class
 com\huandemberg\EBStore\services\UserDetailsServiceImpl.class
+com\huandemberg\EBStore\services\TransacaoService.class
 com\huandemberg\EBStore\controllers\ProdutoController.class
 com\huandemberg\EBStore\repositories\ProdutoRepository.class
 com\huandemberg\EBStore\models\Caixa.class
@@ -42,6 +45,7 @@ com\huandemberg\EBStore\services\ProdutoService.class
 com\huandemberg\EBStore\models\dto\VendaCreateDTO.class
 com\huandemberg\EBStore\models\User.class
 com\huandemberg\EBStore\models\dto\UserCreateDTO.class
+com\huandemberg\EBStore\controllers\TransacaoController.class
 com\huandemberg\EBStore\models\dto\DateRangeDTO.class
 com\huandemberg\EBStore\configs\SecurityConfig.class
 com\huandemberg\EBStore\EbStoreApplication.class
