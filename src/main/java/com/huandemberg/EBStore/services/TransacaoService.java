@@ -11,12 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.huandemberg.EBStore.models.Transacao;
 import com.huandemberg.EBStore.models.User;
 import com.huandemberg.EBStore.models.Venda;
+import com.huandemberg.EBStore.models.dto.TransacaoCreateDTO;
 import com.huandemberg.EBStore.models.enums.ProfileEnum;
 import com.huandemberg.EBStore.repositories.TransacaoRepository;
 import com.huandemberg.EBStore.security.UserSpringSecurity;
 import com.huandemberg.EBStore.services.exceptions.AuthorizationException;
 import com.huandemberg.EBStore.services.exceptions.DataBindingViolationException;
 import com.huandemberg.EBStore.services.exceptions.ObjectNotFoundException;
+
+import jakarta.validation.Valid;
 
 @Service
 public class TransacaoService {
@@ -147,6 +150,22 @@ public class TransacaoService {
         } catch (Exception e) {
             throw new DataBindingViolationException(e.getMessage());
         }
+    }
+
+    public Transacao fromDTO(@Valid TransacaoCreateDTO obj){
+
+        Transacao transacao = new Transacao();
+        List<Long> vendas_id = obj.getVendas_id();
+        List<Venda> vendas = new ArrayList<>();
+        for (Long venda : vendas_id) {
+            vendas.add(this.vendaService.findById(venda));
+        }
+        transacao.setCaixa(this.caixaService.findById(obj.getCaixa()));
+        transacao.setDescricao(obj.getDescricao());
+        transacao.setVendas(vendas);
+        return transacao;
+
+
     }
 
     private Boolean userHasTransacao(UserSpringSecurity userSpringSecurity, Transacao transacao) {

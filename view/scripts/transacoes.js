@@ -1,4 +1,4 @@
-const vendaEndpoint = "http://localhost:8080/transacao/transacoes";
+let vendaEndpoint = "http://localhost:8080/transacao/transacoes";
 
 function hideLoader() {
     document.getElementById("loading").style.display = "none";
@@ -58,20 +58,57 @@ function createTransacao() {
     tab = `<form>
                 <div class="mb-3">
                     <label class="form-label">Caixa_Id</label>
-                    <input type="number"  class="form-control" id="clienteInput" aria-describedby="form-control" autocomplete="off">
+                    <input type="number"  class="form-control" id="caixaInput" aria-describedby="form-control" autocomplete="off">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Descrição</label>
-                    <input type="Text"  class="form-control" id="produtoInput">
+                    <input type="Text"  class="form-control" id="descricaoInput">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Vendas</label>
-                    <input type="number"  class="form-control" id="valorInput">
+                    <input type="number"  class="form-control" id="vendasInput">
                 </div>
-                <button type="button" onclick="newTransacao()" class="btn btn-primary">Submit</button>
+                <button type="button" onclick="newTransacao(${1})" class="btn btn-primary me-2">Receber</button>
+                <button type="button" onclick="newTransacao(${0})" class="btn btn-primary">Débito</button>
             </form>`;
 
     document.getElementById("transacoes").innerHTML = tab;
+}
+
+async function newTransacao(tipo){
+    let caixa = document.getElementById("caixaInput").value;
+    let descricao = document.getElementById("descricaoInput").value;
+    let ids = document.getElementById("vendasInput").value;
+    const vendas_id = ids.split('.').map(Number);
+    let key = "Authorization";
+    if(tipo == 1){
+        vendaEndpoint = "http://localhost:8080/transacao/receber"
+    }else{
+        vendaEndpoint = "http://localhost:8080/transacao/debitar"
+    }
+    const response = await fetch(vendaEndpoint, {
+        method: "POST",
+        headers: new Headers({
+            "Content-Type": "application/json; charset=utf8",
+            Accept: "application/json",
+            Authorization: localStorage.getItem(key),
+        }),
+        body: JSON.stringify({
+            caixa: caixa,
+            descricao: descricao,
+            vendas_id: vendas_id
+        }),
+    });
+
+    if (response.ok) {
+        showToast("#okToast");
+      } else {
+        showToast("#errorToast");
+      }
+    
+      window.setTimeout(function () {
+        window.location = "/view/transacoes.html";
+      }, 1000);
 }
 
 async function deleteTransacao(transacaoId) {
@@ -82,9 +119,16 @@ async function deleteTransacao(transacaoId) {
             Authorization: localStorage.getItem(key),
         }),
     });
-    window.location = "/view/vendas.html";
+    window.location = "/view/transacoes.html";
 }
 
+function showToast(id) {
+    var toastElList = [].slice.call(document.querySelectorAll(id));
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl);
+    });
+    toastList.forEach((toast) => toast.show());
+  }
 
 document.addEventListener("DOMContentLoaded", function (event) {
     if (!localStorage.getItem("Authorization"))
