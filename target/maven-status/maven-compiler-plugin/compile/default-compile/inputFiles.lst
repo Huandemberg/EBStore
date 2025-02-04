@@ -3,6 +3,7 @@ C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandember
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\controllers\CaixaController.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\controllers\ClienteController.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\controllers\ProdutoController.java
+C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\controllers\TransacaoController.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\controllers\UserController.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\controllers\VendaController.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\EbStoreApplication.java
@@ -23,11 +24,13 @@ C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandember
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\models\projection\ClienteProjection.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\models\projection\ProdutoProjection.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\models\projection\VendaProjection.java
+C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\models\Transacao.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\models\User.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\models\Venda.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\repositories\CaixaRepository.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\repositories\ClienteRepository.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\repositories\ProdutoRepository.java
+C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\repositories\TransacaoRepository.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\repositories\UserRepository.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\repositories\VendaRepository.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\security\JWTAuthenticationFilter.java
@@ -40,6 +43,7 @@ C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandember
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\services\exceptions\DataBindingViolationException.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\services\exceptions\ObjectNotFoundException.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\services\ProdutoService.java
+C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\services\TransacaoService.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\services\UserDetailsServiceImpl.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\services\UserService.java
 C:\Users\a3tur\OneDrive\Documentos\Projetos\EBStore\src\main\java\com\huandemberg\EBStore\services\VendaService.java

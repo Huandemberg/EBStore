@@ -35,7 +35,7 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "transacao", cascade = CascadeType.MERGE, orphanRemoval = false)
     @JsonIgnoreProperties({ "username", "cpf", "dataNasc", "email"})
     private List<Venda> vendas;
 

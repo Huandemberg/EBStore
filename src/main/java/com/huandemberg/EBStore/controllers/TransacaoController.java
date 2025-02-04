@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.huandemberg.EBStore.models.Transacao;
+import com.huandemberg.EBStore.models.dto.TransacaoCreateDTO;
 import com.huandemberg.EBStore.services.TransacaoService;
 import com.huandemberg.EBStore.services.exceptions.DataBindingViolationException;
 
@@ -46,10 +47,27 @@ public class TransacaoController {
 
     @PostMapping("/receber")
     @Validated
-    public ResponseEntity<Void> createReceber(@Valid @RequestBody Transacao obj) {
+    public ResponseEntity<Void> createReceber(@Valid @RequestBody TransacaoCreateDTO obj) {
 
         try {
-            Transacao transacao = this.transacaoService.createIncrement(obj);
+            Transacao newObj = this.transacaoService.fromDTO(obj);
+            Transacao transacao = this.transacaoService.createIncrement(newObj);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(transacao.getId())
+                    .toUri();
+            return ResponseEntity.created(uri).build();
+        } catch (Exception e) {
+            throw new DataBindingViolationException(e.getMessage());
+        }
+
+    }
+
+    @PostMapping("/debitar")
+    @Validated
+    public ResponseEntity<Void> createDebitar(@Valid @RequestBody TransacaoCreateDTO obj) {
+
+        try {
+            Transacao newObj = this.transacaoService.fromDTO(obj);
+            Transacao transacao = this.transacaoService.createDecrement(newObj);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(transacao.getId())
                     .toUri();
             return ResponseEntity.created(uri).build();

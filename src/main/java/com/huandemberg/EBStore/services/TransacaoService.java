@@ -11,12 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.huandemberg.EBStore.models.Transacao;
 import com.huandemberg.EBStore.models.User;
 import com.huandemberg.EBStore.models.Venda;
+import com.huandemberg.EBStore.models.dto.TransacaoCreateDTO;
 import com.huandemberg.EBStore.models.enums.ProfileEnum;
 import com.huandemberg.EBStore.repositories.TransacaoRepository;
 import com.huandemberg.EBStore.security.UserSpringSecurity;
 import com.huandemberg.EBStore.services.exceptions.AuthorizationException;
 import com.huandemberg.EBStore.services.exceptions.DataBindingViolationException;
 import com.huandemberg.EBStore.services.exceptions.ObjectNotFoundException;
+
+import jakarta.validation.Valid;
 
 @Service
 public class TransacaoService {
@@ -69,11 +72,13 @@ public class TransacaoService {
         List<Venda> vendas = obj.getVendas();
         List<Venda> vendas2 = new ArrayList<>();
         obj.setTipoTransacao(1);
-        /* obj.calcTransacao(vendas); */
         obj.setUser(user);
         for (Venda venda : vendas) {
             Venda objV = this.vendaService.findById(venda.getId());
             vendas2.add(objV);
+            if(objV.getTransacao() != null){
+                throw new DataBindingViolationException("Já existe transação relacionada em alguma venda listada!");
+            }
             obj.calcTransacaoTeste(objV);
             this.vendaService.updateBaixa(venda);
         }
@@ -97,31 +102,24 @@ public class TransacaoService {
 
         User user = this.userService.findById(userSpringSecurity.getId());
         List<Venda> vendas = obj.getVendas();
-        obj.calcTransacao(vendas);
-/*         // Tipo de transação(1) para adicionar ao caixa, efetivamente venda
-        if (Integer.valueOf(1).equals(obj.getTipoTransacao())) {
-
-            this.caixaService.updateIncrementar(obj.getCaixa(), obj.getValorTransacao());
-
-        } // Tipo de transação(0) para deduzir do caixa, efetivamente contas a pagar
-        if (Integer.valueOf(0).equals(obj.getTipoTransacao())) {
-
-            this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao());
-
-        } else {
-
-            throw new DataBindingViolationException(
-                    "Formato de entrada da requisição incompativel com o campo 'Tipo de transação' " + obj.getTipoTransacao() + "tipo de dado: " + ((Object) obj.getTipoTransacao()).getClass());
-
-        } */
+        List<Venda> vendas2 = new ArrayList<>();
         obj.setTipoTransacao(0);
-        this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao()); obj.getValorTransacao();
-        obj.setId(null);
         obj.setUser(user);
         for (Venda venda : vendas) {
+            Venda objV = this.vendaService.findById(venda.getId());
+            vendas2.add(objV);
+            if(objV.getTransacao() != null){
+                throw new DataBindingViolationException("Já existe transação relacionada em alguma venda listada!");
+            }
+            obj.calcTransacaoTeste(objV);
             this.vendaService.updateBaixa(venda);
         }
+        this.caixaService.updateDecrementar(obj.getCaixa(), obj.getValorTransacao());
+        obj.setVendas(vendas2);
         obj = this.transacaoRepository.save(obj);
+        for (Venda venda : vendas) {
+            this.vendaService.updateTransacao(venda, obj);
+        }
         return obj;
 
     }
@@ -152,6 +150,22 @@ public class TransacaoService {
         } catch (Exception e) {
             throw new DataBindingViolationException(e.getMessage());
         }
+    }
+
+    public Transacao fromDTO(@Valid TransacaoCreateDTO obj){
+
+        Transacao transacao = new Transacao();
+        List<Long> vendas_id = obj.getVendas_id();
+        List<Venda> vendas = new ArrayList<>();
+        for (Long venda : vendas_id) {
+            vendas.add(this.vendaService.findById(venda));
+        }
+        transacao.setCaixa(this.caixaService.findById(obj.getCaixa()));
+        transacao.setDescricao(obj.getDescricao());
+        transacao.setVendas(vendas);
+        return transacao;
+
+
     }
 
     private Boolean userHasTransacao(UserSpringSecurity userSpringSecurity, Transacao transacao) {
